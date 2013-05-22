@@ -79,7 +79,7 @@ void ReplayGainEnhancer::processAlbum(const QList<QFileInfo> &album, FileType ty
         break;
     } case TYPE_MP3: {
         program = "mp3gain";
-        args << "-a" << "-s" << "i";
+        args << "-a" << "-s i";
         break;
     } default:
         break;
@@ -90,7 +90,7 @@ void ReplayGainEnhancer::processAlbum(const QList<QFileInfo> &album, FileType ty
     }
 
     QProcess process;
-    process.start("metaflac", args);
+    process.start(program, args);
     process.waitForFinished(-1);
 }
 
