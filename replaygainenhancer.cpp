@@ -9,6 +9,7 @@
 
 ReplayGainEnhancer::ReplayGainEnhancer(const QString &path) :
     _baseDirectory(path),
+    _forceComputation(false),
     _flacFilter("*.flac"),
     _vorbisFilter("*.ogg"),
     _mp3Filter("*.mp3")
@@ -41,6 +42,7 @@ void ReplayGainEnhancer::processDirectory(const QDir &directory)
 void ReplayGainEnhancer::processFiles(const QDir &directory, QList<QList<QFileInfo> > &albumList, const QStringList &fileFilter)
 {
     QList<QFileInfo> albumFiles;
+    // TODO Add just flac files without replaygain tags since metaflac has no option to skip files with tags
     foreach (QFileInfo file, directory.entryInfoList(fileFilter, QDir::Files)) {
         albumFiles.append(file);
     }
@@ -75,11 +77,17 @@ void ReplayGainEnhancer::processAlbum(const QList<QFileInfo> &album, FileType ty
         break;
     } case TYPE_VORBIS: {
         program = "vorbisgain";
-        args << "-as";
+        args << "-asq";
+        if (!_forceComputation) {
+            args << "-f";
+        }
         break;
     } case TYPE_MP3: {
         program = "mp3gain";
-        args << "-a" << "-s i";
+        args << "-a" << "-s i" << "-q";
+        if (_forceComputation) {
+            args << "-s r";
+        }
         break;
     } default:
         break;

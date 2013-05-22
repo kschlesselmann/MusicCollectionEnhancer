@@ -15,6 +15,8 @@ public:
 
     void process();
 
+    void setForceComputation(bool force);
+
 private:
     enum FileType {
         TYPE_FLAC,
@@ -23,6 +25,8 @@ private:
     };
 
     QDir _baseDirectory;
+
+    bool _forceComputation;
 
     QStringList _flacFilter;
     QList<QList<QFileInfo> > _flacFiles;
@@ -44,5 +48,10 @@ private:
 
     void waitForFinish();
 };
+
+inline void ReplayGainEnhancer::setForceComputation(bool force)
+{
+    _forceComputation = force;
+}
 
 #endif // REPLAYGAINENHANCER_H
