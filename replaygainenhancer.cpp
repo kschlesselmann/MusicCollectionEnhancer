@@ -15,7 +15,7 @@ ReplayGainEnhancer::ReplayGainEnhancer(const QString &path) :
     _vorbisFilter("*.ogg"),
     _mp3Filter("*.mp3")
 {
-    qDebug() << "Ideal thread count is:" << QThread::idealThreadCount();
+    qDebug() << "Using" << QThread::idealThreadCount() << "threads to compute ReplayGain values.";
 }
 
 void ReplayGainEnhancer::process()
@@ -43,7 +43,7 @@ void ReplayGainEnhancer::processDirectory(const QDir &directory)
 void ReplayGainEnhancer::processFiles(const QDir &directory, QList<QList<QFileInfo> > &albumList, const QStringList &fileFilter)
 {
     QList<QFileInfo> albumFiles;
-    // TODO Add just flac files without replaygain tags since metaflac has no option to skip files with tags
+    // TODO Add just flac files without ReplayGain tags since metaflac has no option to skip files with tags
     foreach (QFileInfo file, directory.entryInfoList(fileFilter, QDir::Files)) {
         albumFiles.append(file);
     }
@@ -67,7 +67,7 @@ void ReplayGainEnhancer::computeReplayGain()
 
 void ReplayGainEnhancer::processAlbum(const QList<QFileInfo> &album, FileType type)
 {
-    qDebug() << "Starting replaygain computation for" << album.first().absolutePath();
+    qDebug() << "Starting ReplayGain computation for" << album.first().absolutePath();
 
     QString program;
     QStringList args;
@@ -106,9 +106,8 @@ void ReplayGainEnhancer::processAlbum(const QList<QFileInfo> &album, FileType ty
 void ReplayGainEnhancer::waitForFinish()
 {
     _flacWatcher.waitForFinished();
-    qDebug() << "flac finished";
     _vorbisWatcher.waitForFinished();
-    qDebug() << "vorbis finished";
     _mp3Watcher.waitForFinished();
-    qDebug() << "mp3 finished";
+
+    qDebug() << "ReplayGain computation finished.";
 }
