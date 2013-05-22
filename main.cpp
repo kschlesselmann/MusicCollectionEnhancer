@@ -10,5 +10,5 @@ int main(int argc, char *argv[])
     // TODO add command line option to set force mode
     rge.process();
 
-    return a.exec();
+    return 0;
 }

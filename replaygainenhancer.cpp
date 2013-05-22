@@ -4,6 +4,7 @@
 #include <QDebug>
 #include <QProcess>
 #include <QtConcurrentMap>
+#include <QTimer>
 
 #include <boost/bind.hpp>
 
@@ -105,8 +106,9 @@ void ReplayGainEnhancer::processAlbum(const QList<QFileInfo> &album, FileType ty
 void ReplayGainEnhancer::waitForFinish()
 {
     _flacWatcher.waitForFinished();
+    qDebug() << "flac finished";
     _vorbisWatcher.waitForFinished();
+    qDebug() << "vorbis finished";
     _mp3Watcher.waitForFinished();
-
-    qApp->quit();
+    qDebug() << "mp3 finished";
 }
