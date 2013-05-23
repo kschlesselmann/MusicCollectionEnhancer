@@ -11,6 +11,9 @@
 ReplayGainEnhancer::ReplayGainEnhancer(const QString &path) :
     _baseDirectory(path),
     _forceComputation(false),
+    _computeFlac(false),
+    _computeVorbis(true),
+    _computeMP3(true),
     _flacFilter("*.flac"),
     _vorbisFilter("*.ogg"),
     _mp3Filter("*.mp3")
@@ -35,9 +38,17 @@ void ReplayGainEnhancer::processDirectory(const QDir &directory)
         processDirectory(QDir(dir.absoluteFilePath()));
     }
 
-    processFiles(directory, _flacFiles, _flacFilter);
-    processFiles(directory, _vorbisFiles, _vorbisFilter);
-    processFiles(directory, _mp3Files, _mp3Filter);
+    if (_computeFlac) {
+        processFiles(directory, _flacFiles, _flacFilter);
+    }
+
+    if (_computeVorbis) {
+        processFiles(directory, _vorbisFiles, _vorbisFilter);
+    }
+
+    if (_computeMP3) {
+        processFiles(directory, _mp3Files, _mp3Filter);
+    }
 }
 
 void ReplayGainEnhancer::processFiles(const QDir &directory, QList<QList<QFileInfo> > &albumList, const QStringList &fileFilter)
@@ -85,7 +96,7 @@ void ReplayGainEnhancer::processAlbum(const QList<QFileInfo> &album, FileType ty
         break;
     } case TYPE_MP3: {
         program = "mp3gain";
-        args << "-a" << "-s i" << "-q";
+        args << "-a" << "-s i" << "-q" << "-c";
         if (_forceComputation) {
             args << "-s r";
         }

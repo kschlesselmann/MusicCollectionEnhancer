@@ -16,6 +16,9 @@ public:
     void process();
 
     void setForceComputation(bool force);
+    void setComputeFlac(bool compute);
+    void setComputeVorbis(bool compute);
+    void setComputeMP3(bool compute);
 
 private:
     enum FileType {
@@ -27,6 +30,9 @@ private:
     QDir _baseDirectory;
 
     bool _forceComputation;
+    bool _computeFlac;
+    bool _computeVorbis;
+    bool _computeMP3;
 
     QStringList _flacFilter;
     QList<QList<QFileInfo> > _flacFiles;
@@ -52,6 +58,21 @@ private:
 inline void ReplayGainEnhancer::setForceComputation(bool force)
 {
     _forceComputation = force;
+}
+
+inline void ReplayGainEnhancer::setComputeFlac(bool compute)
+{
+    _computeFlac = compute;
+}
+
+inline void ReplayGainEnhancer::setComputeVorbis(bool compute)
+{
+    _computeVorbis = compute;
+}
+
+inline void ReplayGainEnhancer::setComputeMP3(bool compute)
+{
+    _computeMP3 = compute;
 }
 
 #endif // REPLAYGAINENHANCER_H
