@@ -18,7 +18,7 @@ ReplayGainEnhancer::ReplayGainEnhancer(const QString &path) :
     _vorbisFilter("*.ogg"),
     _mp3Filter("*.mp3")
 {
-    qDebug() << "Using" << QThread::idealThreadCount() << "threads to compute ReplayGain values.";
+    //qDebug() << "Using" << QThread::idealThreadCount() << "threads to compute ReplayGain values.";
 }
 
 void ReplayGainEnhancer::process()
