@@ -10,7 +10,11 @@ int main(int argc, char *argv[])
 
     // Parsing command line options
     // TODO Switch to more developed argument parser
-    foreach (QString arg, a.arguments()) {
+    QStringList arguments = a.arguments();
+    if (arguments.size() < 2) {
+        arguments << "--help";
+    }
+    foreach (QString arg, arguments) {
         if (arg.compare("-f") == 0) {
             qDebug() << "Forcing ReplayGain computation and overriding present values.";
             rge.setForceComputation(true);

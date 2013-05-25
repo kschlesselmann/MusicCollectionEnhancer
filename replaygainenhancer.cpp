@@ -11,7 +11,7 @@
 ReplayGainEnhancer::ReplayGainEnhancer(const QString &path) :
     _baseDirectory(path),
     _forceComputation(false),
-    _computeFlac(false),
+    _computeFlac(true),
     _computeVorbis(true),
     _computeMP3(true),
     _flacFilter("*.flac"),
