@@ -96,9 +96,9 @@ void ReplayGainEnhancer::processAlbum(const QList<QFileInfo> &album, FileType ty
         break;
     } case TYPE_MP3: {
         program = "mp3gain";
-        args << "-a" << "-s i" << "-q" << "-c";
+        args << "-a" << "-s" << "i" << "-q" << "-c";
         if (_forceComputation) {
-            args << "-s r";
+            args << "-s" << "r";
         }
         break;
     } default:
